@@ -1,0 +1,1 @@
+export const MODULE_OPTIONS_KEY = Symbol("ROARR_LOGGER_MODULE_OPTIONS");
