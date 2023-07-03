@@ -42,7 +42,7 @@ const onResponseFinished = (
           body: responseBody,
         },
       },
-      `Request failed with status code ${response.statusCode}`
+      `${request.method} ${request.url} failed with status code ${response.statusCode}`
     );
 
     return;
@@ -60,8 +60,10 @@ const onResponseFinished = (
         body: responseBody,
       },
     },
-    `Request ${
-      /* response.writableEnded ? "aborted" : "completed" */ "completed"
+    `${request.method} ${request.url} ${
+      // TODO
+      /* response.writableEnded ? "aborted" : "completed" */
+      "completed"
     } with status code ${response.statusCode}`
   );
 };
