@@ -95,7 +95,7 @@ export class RoarrLoggerService implements NestLoggerService {
       message,
       ...optionalParams,
     ]);
-    this.printMessages("warn", messages, context);
+    this.printMessages("info", messages, context);
   }
 
   public verbose(message: any, context?: string): void;

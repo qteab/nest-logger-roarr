@@ -1,1 +1,1 @@
-export { RoarrLoggerModule } from "./roarr-logger";
+export { RoarrLoggerModule, RoarrLoggerService } from "./roarr-logger";

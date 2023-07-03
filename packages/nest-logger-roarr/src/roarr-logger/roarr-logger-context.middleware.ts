@@ -15,32 +15,11 @@ export class RoarrLoggerContextMiddleware implements NestMiddleware {
   use(request: Request, response: Response, next: NextFunction) {
     Store.run(new RoarrLoggerStore(this.logger.logger), () => {
       if (this.options.assignOnRequest) {
-        this.logger.assign(this.options.assignOnRequest(request));
+        this.logger.assign({
+          ...this.options.globalContext,
+          ...this.options.assignOnRequest(request),
+        });
       }
-      // TODO investigate whether to follow
-      // https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#httprequest
-      // this.logger.assign({
-      //   httpRequest: {
-      //     requestMethod: request.method,
-      //     requestUrl: request.url,
-      //     // requestSize: request.leng,
-      //     status: response.status,
-      //     // responseSize: string,
-      //     // userAgent: string,
-      //     // remoteIp: request.ip,
-      //     // serverIp: string,
-      //     // referer: string,
-      //     // latency: string,
-      //     // cacheLookup: boolean,
-      //     // cacheHit: boolean,
-      //     // cacheValidatedWithOriginServer: boolean,
-      //     // cacheFillBytes: string,
-      //     // protocol: string,
-      //   },
-      // });
-      // this.logger.logger.log({
-      //   requestMethod: request.method,
-      // });
       next();
     });
   }

@@ -130,6 +130,27 @@ export class RoarrLoggerAutoMiddleware implements NestMiddleware {
         response.on("error", onResponseComplete);
       }
       next();
+      // TODO investigate whether to follow
+      // https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#httprequest
+      // this.logger.assign({
+      //   httpRequest: {
+      //     requestMethod: request.method,
+      //     requestUrl: request.url,
+      //     // requestSize: request.leng,
+      //     status: response.status,
+      //     // responseSize: string,
+      //     // userAgent: string,
+      //     // remoteIp: request.ip,
+      //     // serverIp: string,
+      //     // referer: string,
+      //     // latency: string,
+      //     // cacheLookup: boolean,
+      //     // cacheHit: boolean,
+      //     // cacheValidatedWithOriginServer: boolean,
+      //     // cacheFillBytes: string,
+      //     // protocol: string,
+      //   },
+      // });
     });
   }
 }
