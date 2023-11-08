@@ -35,7 +35,7 @@ export class RoarrLoggerService implements NestLoggerService {
       message,
       ...optionalParams,
     ]);
-    this.printMessages("warn", messages, context);
+    this.printMessages("debug", messages, context);
   }
 
   public error(message: any, stackOrContext?: string): void;
@@ -105,7 +105,7 @@ export class RoarrLoggerService implements NestLoggerService {
       message,
       ...optionalParams,
     ]);
-    this.printMessages("warn", messages, context);
+    this.printMessages("trace", messages, context);
   }
 
   public warn(message: any, context?: string): void;
