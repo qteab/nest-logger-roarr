@@ -4,7 +4,7 @@ import {
   LogLevel,
   LoggerService as NestLoggerService,
 } from "@nestjs/common";
-import { Roarr } from "roarr";
+import { ROARR, Roarr } from "roarr";
 import { serializeError } from "serialize-error";
 import { JsonObject, ModuleOptions } from "./types";
 import { Store } from "./roarr-logger.store";
@@ -18,7 +18,11 @@ export class RoarrLoggerService implements NestLoggerService {
   constructor(
     private readonly context?: string,
     private readonly options?: ModuleOptions
-  ) {}
+  ) {
+    if (options?.serializeMessage) {
+      ROARR.serializeMessage = options.serializeMessage;
+    }
+  }
 
   public assign(value: JsonObject) {
     const store = Store.getStore();
@@ -55,8 +59,6 @@ export class RoarrLoggerService implements NestLoggerService {
         {
           namespace: lastElement && isContext ? lastElement : this.context,
           error: serializeError(message),          
-          ...this.options?.assignOnLog?.({level: 'error'}),
-
         },
         serializedError.message || "Error"
       );
@@ -74,7 +76,6 @@ export class RoarrLoggerService implements NestLoggerService {
             message: logMessage,
             stack,
           },
-          ...this.options?.assignOnLog?.({level: 'error'}),
         },
         logMessage
       );
@@ -123,7 +124,6 @@ export class RoarrLoggerService implements NestLoggerService {
     messages.forEach((message) =>
       this.logger[level](
         {
-          ...this.options?.assignOnLog?.({level}),
           namespace: context,
         },
         typeof message === "string" ? message : JSON.stringify(message)

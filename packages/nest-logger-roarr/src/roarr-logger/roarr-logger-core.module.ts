@@ -13,6 +13,7 @@ import { MODULE_OPTIONS_KEY } from "./roarr-logger.constants";
 import { RoarrLoggerService } from "./roarr-logger.service";
 import { RoarrLoggerContextMiddleware } from "./roarr-logger-context.middleware";
 import { RoarrLoggerAutoMiddleware } from "./roarr-logger-auto.middleware";
+import { MessageEventHandler, ROARR } from "roarr";
 
 @Global()
 @Module({})
