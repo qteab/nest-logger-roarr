@@ -54,7 +54,9 @@ export class RoarrLoggerService implements NestLoggerService {
       this.logger.error(
         {
           namespace: lastElement && isContext ? lastElement : this.context,
-          error: serializeError(message),
+          error: serializeError(message),          
+          ...this.options?.assignOnLog?.({level: 'error'}),
+
         },
         serializedError.message || "Error"
       );
@@ -72,19 +74,10 @@ export class RoarrLoggerService implements NestLoggerService {
             message: logMessage,
             stack,
           },
+          ...this.options?.assignOnLog?.({level: 'error'}),
         },
         logMessage
       );
-      // this.logger.error(
-      //   {
-      //     namespace: context,
-      //     error: {
-      //       message,
-      //       stack,
-      //     },
-      //   },
-      //   message
-      // );
     });
   }
 
@@ -121,33 +114,6 @@ export class RoarrLoggerService implements NestLoggerService {
   public get logger() {
     return Store.getStore()?.logger || Roarr;
   }
-  // private doLog(
-  //   level: "debug" | "error" | "info" | "trace" | "warn",
-  //   message: any,
-  //   context?: string
-  // ): void;
-  // private doLog(
-  //   level: "debug" | "error" | "info" | "trace" | "warn",
-  //   message: any,
-  //   ...optionalParams: [...any, string?]
-  // ): void;
-  // private doLog(
-  //   level: "debug" | "error" | "info" | "trace" | "warn",
-  //   message: any,
-  //   ...optionalParams: any[]
-  // ) {
-  //   // Nest
-  //   // if (args.length === 1 && args[0] !== 'string') {
-  //   //   args[0] = JSON.stringify
-  //   // }
-  //   console.log({
-  //     level,
-  //     message,
-  //     optionalParams,
-  //   });
-  //   // this.logger[level](...args);
-  //   // this.logger[level]("hihihi");
-  // }
 
   private printMessages(
     level: "debug" | "info" | "trace" | "warn",
@@ -157,6 +123,7 @@ export class RoarrLoggerService implements NestLoggerService {
     messages.forEach((message) =>
       this.logger[level](
         {
+          ...this.options?.assignOnLog?.({level}),
           namespace: context,
         },
         typeof message === "string" ? message : JSON.stringify(message)

@@ -14,4 +14,5 @@ export interface ModuleOptions {
     application?: string;
   };
   assignOnRequest?: (request: Request) => JsonObject;
+  assignOnLog?: (data: {level: "debug" | "info" | "trace" | "warn" | "error"}) => any
 }
